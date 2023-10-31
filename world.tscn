@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqs76i4lqiw6c"]
+
+[ext_resource type="Script" path="res://world_manager.gd" id="1_j63xu"]
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_j63xu")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(120, 1, 120)
+
+[node name="Left" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 0, 0)
+use_collision = true
+size = Vector3(10, 20, 120)
+
+[node name="Right" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65, 0, 0)
+use_collision = true
+size = Vector3(10, 20, 120)
+
+[node name="Front" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -65)
+use_collision = true
+size = Vector3(120, 20, 10)
+
+[node name="Back" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 65)
+use_collision = true
+size = Vector3(120, 20, 10)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.722883, 0.690971, 0, -0.690971, 0.722883, 0, 86.0918, 88.7054)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.425985, 0.90473, 0, -0.90473, 0.425985, 0, 34.0647, 0)
+
+[node name="UI" type="VFlowContainer" parent="."]
+offset_right = 668.0
+offset_bottom = 370.0
+
+[node name="FPSLabel" type="Label" parent="UI"]
+layout_mode = 2
+text = "FPS: "
+
+[node name="CounterLabel" type="Label" parent="UI"]
+layout_mode = 2
+text = "Objects:"
