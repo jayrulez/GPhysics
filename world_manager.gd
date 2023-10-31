@@ -2,30 +2,29 @@ extends Node3D
 
 @onready var box_scene = preload("res://box.tscn")
 
-var default_box: Node3D = null
-
-@export var spawn_cool_down = 0.125
-var current_cool_down = 0.0;
-var spawn_count = 0
-var stop_spawning = false
-@export var spawn_batch_size = 10
-@export var spawn_limit = 8000
-
+var default_box: RigidBody3D = null
 var default_material: StandardMaterial3D = null
-var custom_materials = Array()
-@export var use_custom_material = true
+var custom_materials: Array[StandardMaterial3D] = []
 
+@export var use_custom_material: bool = true
+@export var spawn_cool_down: float = 0.125
+@export var spawn_batch_size: int = 10
+@export var spawn_limit: int = 8000
 
-var boxes = Array()
+var current_cool_down: float = 0.0;
+var spawn_count: int = 0
+var stop_spawning: bool = false
 
-var rng = RandomNumberGenerator.new()
+var boxes: Array[RigidBody3D] = []
+
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var fps_label: Label = null
 var counter_label: Label = null
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	current_cool_down = spawn_cool_down
 	default_box = box_scene.instantiate()
 	default_material = _create_material()
@@ -34,17 +33,17 @@ func _ready():
 	counter_label = find_child("UI").find_child("CounterLabel") as Label
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta) -> void:
 #	print("current_cool_down: " + str(current_cool_down))
-	if current_cool_down <= 0:
-		spawn_cubes()
+	if current_cool_down <= 0 and spawn_count < spawn_limit:
+		_spawn_cubes()
 		current_cool_down = spawn_cool_down
 	
 	current_cool_down -= delta
 	
 	_update_fps_text()
 	
-func _input(event):
+func _input(event) -> void:
 	if event is InputEventKey and event.is_pressed():
 		if event.keycode == KEY_SPACE:
 			stop_spawning = !stop_spawning
@@ -52,7 +51,7 @@ func _input(event):
 		if event.keycode == KEY_M:
 			_change_materials()
 	
-func _update_fps_text():
+func _update_fps_text() -> void:
 	fps_label.set_text("FPS: " + str(Engine.get_frames_per_second()))
 	counter_label.set_text("Objects: " + str(spawn_count))
 	
@@ -68,7 +67,7 @@ func _create_material() -> StandardMaterial3D:
 	
 	return material
 	
-func _change_materials():
+func _change_materials() -> void:
 	use_custom_material = !use_custom_material;
 	if use_custom_material:
 		print("Using custom material")
@@ -85,7 +84,7 @@ func _change_materials():
 			mesh.set_surface_override_material(0, default_material)
 			custom_materials[i] = null
 	
-func spawn_cubes():
+func _spawn_cubes() -> void:
 	if spawn_count >= spawn_limit:
 		stop_spawning = true
 	

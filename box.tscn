@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b40aqcgvwfyfa"]
+[gd_scene load_steps=6 format=3 uid="uid://b40aqcgvwfyfa"]
+
+[ext_resource type="Script" path="res://box.gd" id="1_fkiik"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_onorm"]
 friction = 0.38
@@ -13,10 +15,10 @@ bounce = 0.3
 albedo_color = Color(1, 0.258824, 0.784314, 1)
 
 [node name="RigidBody3D" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.9763, 0)
 physics_material_override = SubResource("PhysicsMaterial_onorm")
 continuous_cd = true
 freeze_mode = 1
+script = ExtResource("1_fkiik")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_nnf1g")
